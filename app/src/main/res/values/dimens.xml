@@ -1,0 +1,9 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="card_view_height">180dp</dimen>
+    <dimen name="card_corner_sides">5dp</dimen>
+    <dimen name="card_corner_main_radius">4dp</dimen>
+    <dimen name="card_view_main_margins">10dp</dimen>
+
+</resources>
