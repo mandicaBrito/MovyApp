@@ -1,7 +1,8 @@
-package br.com.movyapp.view.activity;
+package br.com.movyapp.view.detail;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
@@ -10,12 +11,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import br.com.movyapp.R;
-import br.com.movyapp.model.Movie;
-import br.com.movyapp.presenter.IMovieDetailPresenter;
-import br.com.movyapp.presenter.impl.MovieDetailPresenter;
-import br.com.movyapp.view.IMovieDetailView;
+import br.com.movyapp.domain.model.Movie;
 
-public class MovieDetailsActivity extends Activity implements IMovieDetailView {
+public class MovieDetailsActivity extends Activity implements MovieDetailContract.View {
 
     private ImageView moviePoster;
 
@@ -27,7 +25,7 @@ public class MovieDetailsActivity extends Activity implements IMovieDetailView {
 
     private TextView movieGenre;
 
-    private IMovieDetailPresenter presenter;
+    private MovieDetailContract.Presenter presenter;
 
     private Movie item;
 
@@ -50,14 +48,16 @@ public class MovieDetailsActivity extends Activity implements IMovieDetailView {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             item = (Movie) extras.getSerializable("movieItem");
-
-            dialog = new ProgressDialog(this);
-            dialog.setMessage(getString(R.string.loading));
-            dialog.show();
-
             presenter.getMovieGenres(item.getId());
         }
 
+    }
+
+    @Override
+    public void showDialog() {
+        dialog = new ProgressDialog(this);
+        dialog.setMessage(getString(R.string.loading));
+        dialog.show();
     }
 
     public void onGenreLoadSuccess(String genre) {
@@ -65,11 +65,9 @@ public class MovieDetailsActivity extends Activity implements IMovieDetailView {
     }
 
     public void setMovieContent(String genre) {
-        dialog.cancel();
-
         movieTitle.setText(item.getTitle());
         movieReleaseDate.setText(item.getReleaseDate());
-        movieGenre.setText(genre != null ? genre : "");
+        movieGenre.setText(genre != null ? genre : getText(R.string.no_description));
 
         movieDesc.setText(item.getOverview() != null && !item.getOverview().isEmpty() ? item.getOverview() : getText(R.string.no_description));
 
@@ -83,5 +81,17 @@ public class MovieDetailsActivity extends Activity implements IMovieDetailView {
     @Override
     public void onGenreLoadError() {
         setMovieContent(null);
+    }
+
+    @Override
+    public void closeDialog() {
+        if (dialog != null) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

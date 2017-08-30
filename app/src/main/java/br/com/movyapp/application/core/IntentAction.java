@@ -1,4 +1,4 @@
-package br.com.movyapp.core;
+package br.com.movyapp.application.core;
 
 public enum IntentAction {
 

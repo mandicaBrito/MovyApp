@@ -1,4 +1,4 @@
-package br.com.movyapp.model;
+package br.com.movyapp.domain.model;
 
 import com.google.gson.annotations.SerializedName;
 

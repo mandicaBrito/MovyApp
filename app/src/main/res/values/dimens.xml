@@ -6,4 +6,11 @@
     <dimen name="card_corner_main_radius">4dp</dimen>
     <dimen name="card_view_main_margins">10dp</dimen>
 
+    <dimen name="movie_title_font_size">15dp</dimen>
+    <dimen name="movie_title_margin_top">20dp</dimen>
+    <dimen name="movie_title_item_margin_top">2dp</dimen>
+    <dimen name="movie_desc_item_margin_top">2dp</dimen>
+    <dimen name="movie_desc_item_margin_right">5dp</dimen>
+    <dimen name="movie_detail_margin">5dp</dimen>
+
 </resources>

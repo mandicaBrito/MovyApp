@@ -1,9 +1,8 @@
-package br.com.movyapp.model;
+package br.com.movyapp.domain.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class MovieGenre implements Serializable {
 

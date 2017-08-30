@@ -36,34 +36,19 @@
                 android:id="@+id/txv_movie_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textSize="15dp"
+                android:layout_marginTop="@dimen/movie_title_item_margin_top"
+                android:textSize="@dimen/movie_title_font_size"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txv_movie_genre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txv_movie_title"
-                android:text="@string/no_description" />
-
-            <TextView
-                android:id="@+id/txv_movie_release_date"
-                android:layout_width="wrap_content"
-                android:layout_below="@id/txv_movie_genre"
-                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/txv_movie_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txv_movie_release_date"
-                android:layout_marginRight="2dp"
-                android:layout_marginTop="5dp"
+                android:layout_below="@id/txv_movie_title"
+                android:layout_marginRight="@dimen/movie_desc_item_margin_top"
+                android:layout_marginTop="@dimen/movie_desc_item_margin_right"
                 android:ellipsize="end"
-                android:maxLines="3"
-                android:text="@string/no_description" />
-
+                android:maxLines="3" />
 
         </RelativeLayout>
     </LinearLayout>
