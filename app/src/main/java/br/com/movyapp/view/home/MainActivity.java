@@ -4,10 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +24,10 @@ import br.com.movyapp.domain.model.Movie;
 import br.com.movyapp.view.adapter.MoviesListAdapter;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View,
-        MoviesListAdapter.RecyclerViewClickListener, MoviesListAdapter.LoadItemsListener {
+        MoviesListAdapter.RecyclerViewClickListener, MoviesListAdapter.LoadItemsListener,
+        SearchView.OnQueryTextListener {
 
-    private RecyclerView moviesList;
+    public RecyclerView moviesList;
 
     private MoviesListAdapter adapter;
 
@@ -34,8 +39,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private TextView noMoviesListTxv;
 
+    private boolean isSearch = false;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,19 +54,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         layoutManager = new LinearLayoutManager(this);
         moviesList.setLayoutManager(layoutManager);
 
-        adapter = new MoviesListAdapter(this.getApplicationContext(), moviesList, 1);
+        adapter = new MoviesListAdapter(this.getApplicationContext(), moviesList, MainContract.View.INITIAL_PAGE);
         adapter.setRecyclerViewListClicked(this);
         adapter.setLoadItemsListener(this);
         moviesList.setAdapter(adapter);
 
         presenter = new MainPresenter();
         presenter.setView(this);
-        presenter.getMovies(1);
+        presenter.getMovies(MainContract.View.INITIAL_PAGE);
 
     }
 
     @Override
-    public void recyclerViewListClicked(View vw, int position, Movie item) {
+    public void recyclerViewListClicked(final View vw, final int position, final Movie item) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("movieItem", item);
 
@@ -68,55 +75,57 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         startActivity(intent);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//
-//        MenuItem search = menu.findItem(R.id.search);
-//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
-//        searchMovie(searchView);
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    private void searchMovie(SearchView searchView) {
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                adapter.getFilter().filter(newText);
-//                return true;
-//            }
-//        });
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem search = menu.findItem(R.id.search);
+
+        MenuItemCompat.setOnActionExpandListener(search,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(final MenuItem menuItem) {
+                        isSearch = true;
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(final MenuItem menuItem) {
+                        isSearch = false;
+                        adapter.onLoadingComplete();
+                        return true;
+                    }
+                });
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        searchView.setOnQueryTextListener(this);
+
+        return true;
+    }
 
     @Override
-    public void updateMovieList(List<Movie> changesList) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void updateMovieList(final List<Movie> changesList) {
         moviesList.setVisibility(View.VISIBLE);
         noMoviesListTxv.setVisibility(View.GONE);
         adapter.setData(changesList);
         adapter.notifyDataSetChanged();
-        adapter.setLoaded();
+        adapter.onLoadingComplete();
     }
 
     @Override
-    public void onUpcomingMoviesError(String message) {
+    public void onUpcomingMoviesError(final String message) {
         if (adapter.getItemCount() == 0) {
             moviesList.setVisibility(View.GONE);
             noMoviesListTxv.setVisibility(View.VISIBLE);
         }
 
-        adapter.setLoaded();
+        adapter.onLoadingComplete();
         Toast.makeText(this, getString(R.string.loading_movies_error), Toast.LENGTH_SHORT).show();
     }
 
@@ -140,7 +149,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void loadItems(int page) {
-        presenter.getMovies(page);
+    public void loadItems(final int page) {
+        if (!isSearch) {
+            presenter.getMovies(page);
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(final String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(final String newText) {
+        adapter.getFilter().filter(newText);
+        return true;
     }
 }

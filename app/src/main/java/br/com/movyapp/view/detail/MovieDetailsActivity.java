@@ -32,7 +32,7 @@ public class MovieDetailsActivity extends Activity implements MovieDetailContrac
     private ProgressDialog dialog;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_movie_details);
@@ -60,14 +60,14 @@ public class MovieDetailsActivity extends Activity implements MovieDetailContrac
         dialog.show();
     }
 
-    public void onGenreLoadSuccess(String genre) {
+    public void onGenreLoadSuccess(final String genre) {
         setMovieContent(genre);
     }
 
     public void setMovieContent(String genre) {
         movieTitle.setText(item.getTitle());
         movieReleaseDate.setText(item.getReleaseDate());
-        movieGenre.setText(genre != null ? genre : getText(R.string.no_description));
+        movieGenre.setText((genre != null && !genre.isEmpty()) ? genre : getText(R.string.no_description));
 
         movieDesc.setText(item.getOverview() != null && !item.getOverview().isEmpty() ? item.getOverview() : getText(R.string.no_description));
 

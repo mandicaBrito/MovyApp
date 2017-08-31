@@ -25,7 +25,6 @@ public class MainPresenter implements MainContract.Presenter, Callback<MovieList
 
     @Override
     public void getMovies(int page) {
-
         view.showDialog();
 
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
@@ -54,7 +53,6 @@ public class MainPresenter implements MainContract.Presenter, Callback<MovieList
                 response.raw().networkResponse() != null &&
                 response.raw().networkResponse().code() ==
                         HttpURLConnection.HTTP_NOT_MODIFIED) {
-            // not modified: returns the cache info.
             return;
         }
 
