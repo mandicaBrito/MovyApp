@@ -71,7 +71,6 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter, Call
             for (MovieGenre res : result.getGenres()) {
                 genre += res.getName().concat("; ");
             }
-
             view.onGenreLoadSuccess(genre);
         }
     }
