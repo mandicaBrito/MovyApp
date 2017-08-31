@@ -18,10 +18,14 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.movyapp.R;
 import br.com.movyapp.application.core.IntentAction;
 import br.com.movyapp.domain.model.Movie;
 import br.com.movyapp.view.adapter.MoviesListAdapter;
+import br.com.movyapp.view.home.injection.DaggerMainComponent;
+import br.com.movyapp.view.home.injection.MainModule;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View,
         MoviesListAdapter.RecyclerViewClickListener, MoviesListAdapter.LoadItemsListener,
@@ -33,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private RecyclerView.LayoutManager layoutManager;
 
-    private MainContract.Presenter presenter;
+    @Inject
+    public MainPresenter presenter;
 
     private ProgressDialog dialog;
 
@@ -45,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DaggerMainComponent.builder().mainModule(new MainModule(this)).build().inject(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         adapter.setLoadItemsListener(this);
         moviesList.setAdapter(adapter);
 
-        presenter = new MainPresenter();
-        presenter.setView(this);
         presenter.getMovies(MainContract.View.INITIAL_PAGE);
 
     }

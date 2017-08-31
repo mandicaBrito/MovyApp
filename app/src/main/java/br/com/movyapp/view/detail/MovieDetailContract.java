@@ -6,6 +6,9 @@ import java.util.List;
 
 import br.com.movyapp.domain.model.Movie;
 
+/**
+ * Contract to help define MVP pattern and handle view actions
+ */
 public interface MovieDetailContract {
 
     interface View {
@@ -21,8 +24,6 @@ public interface MovieDetailContract {
     }
 
     interface Presenter {
-        void setView(final MovieDetailContract.View view);
-
         void getMovieGenres(final Long id);
     }
 }

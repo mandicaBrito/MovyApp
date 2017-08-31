@@ -1,5 +1,8 @@
 package br.com.movyapp.application.core;
 
+/**
+ * Intent action constants to help start viewa
+ */
 public enum IntentAction {
 
     MOVIE_DETAILS("movyapp.intent.action.activity.MOVIE_DETAILS");

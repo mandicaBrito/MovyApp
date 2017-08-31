@@ -2,6 +2,8 @@ package br.com.movyapp.view.home;
 
 import java.net.HttpURLConnection;
 
+import javax.inject.Inject;
+
 import br.com.movyapp.domain.model.MovieList;
 import br.com.movyapp.domain.service.IUpcomingMoviesService;
 import okhttp3.Cache;
@@ -12,14 +14,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Handles activity actions
+ */
 public class MainPresenter implements MainContract.Presenter, Callback<MovieList> {
 
     private final static int CACHE_SIZE_BYTES = 1024 * 1024 * 2;
 
-    private MainContract.View view;
+    public MainContract.View view;
 
-    @Override
-    public void setView(final MainContract.View view) {
+    @Inject
+    public MainPresenter(final MainContract.View view){
         this.view = view;
     }
 
@@ -53,6 +58,7 @@ public class MainPresenter implements MainContract.Presenter, Callback<MovieList
                 response.raw().networkResponse() != null &&
                 response.raw().networkResponse().code() ==
                         HttpURLConnection.HTTP_NOT_MODIFIED) {
+            // It means that the content was not modified: returns the cache info.
             return;
         }
 

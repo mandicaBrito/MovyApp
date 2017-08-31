@@ -24,7 +24,7 @@ public class MovyAppTest {
     public ActivityTestRule<MainActivity> activity = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void loadMoviesTest() {
+    public void loadMoreMoviesTest() {
         onView(withId(R.id.rcv_movie_list))
                 .perform(RecyclerViewActions.scrollToPosition(15));
 
@@ -33,7 +33,7 @@ public class MovyAppTest {
     }
 
     @Test
-    public void movieDetailTest() {
+    public void openMovieDetailsTest() {
         onView(withId(R.id.rcv_movie_list))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
@@ -41,7 +41,7 @@ public class MovyAppTest {
     }
 
     @Test
-    public void searchMovieTest() {
+    public void searchMoviesTest() {
         onView(withId(R.id.search)).perform(click());
         onView(withId(android.support.design.R.id.search_src_text)).perform(typeText("an"));
         onView(withId(R.id.rcv_movie_list)).check(new RecyclerViewItemCount(4));

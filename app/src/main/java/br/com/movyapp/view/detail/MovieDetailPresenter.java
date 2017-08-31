@@ -2,6 +2,8 @@ package br.com.movyapp.view.detail;
 
 import java.net.HttpURLConnection;
 
+import javax.inject.Inject;
+
 import br.com.movyapp.domain.model.MovieGenre;
 import br.com.movyapp.domain.model.MovieGenreList;
 import br.com.movyapp.domain.service.IUpcomingMoviesService;
@@ -13,14 +15,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Handles details activity actions
+ */
 public class MovieDetailPresenter implements MovieDetailContract.Presenter, Callback<MovieGenreList> {
 
-    private MovieDetailContract.View view;
+    public MovieDetailContract.View view;
 
     private final static int CACHE_SIZE_BYTES = 1024 * 1024 * 2;
 
-    @Override
-    public void setView(final MovieDetailContract.View view) {
+    @Inject
+    public MovieDetailPresenter(MovieDetailContract.View view){
         this.view = view;
     }
 
@@ -55,7 +60,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter, Call
                 response.raw().networkResponse() != null &&
                 response.raw().networkResponse().code() ==
                         HttpURLConnection.HTTP_NOT_MODIFIED) {
-            // not modified: returns the cache info.
+            // It means that the content was not modified: returns the cache info.
             return;
         }
 

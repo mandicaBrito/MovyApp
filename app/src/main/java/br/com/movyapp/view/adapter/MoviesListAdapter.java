@@ -20,6 +20,9 @@ import java.util.List;
 import br.com.movyapp.R;
 import br.com.movyapp.domain.model.Movie;
 
+/**
+ * Movies adapter to help inflate and manage movies list items
+ */
 public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.ViewHolder> implements Filterable {
 
     private List<Movie> data;
@@ -37,6 +40,10 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
     private boolean isLoading;
 
     private List<Movie> filteredData;
+
+    private RecyclerViewClickListener recyclerViewListClicked;
+
+    private LoadItemsListener loadItemsListener;
 
     public MoviesListAdapter() {
     }
@@ -76,10 +83,6 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
         this.data.addAll(data);
         this.filteredData = this.data;
     }
-
-    public RecyclerViewClickListener recyclerViewListClicked;
-
-    public LoadItemsListener loadItemsListener;
 
     public void setRecyclerViewListClicked(final RecyclerViewClickListener recyclerViewListClicked) {
         this.recyclerViewListClicked = recyclerViewListClicked;
@@ -180,19 +183,25 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
 
         public View view;
 
-        public ViewHolder(View view) {
+        public ViewHolder(final View view) {
             super(view);
             this.view = view;
         }
 
     }
 
+    /**
+     * Defines a listener to open and item details
+     */
     public interface RecyclerViewClickListener {
-        void recyclerViewListClicked(View vw, int position, Movie item);
+        void recyclerViewListClicked(final View vw, final int position, final Movie item);
     }
 
+    /**
+     * Defines a listener to load more items while scrolling through recycler view
+     */
     public interface LoadItemsListener {
-        void loadItems(int page);
+        void loadItems(final int page);
     }
 
 }

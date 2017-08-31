@@ -10,8 +10,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import br.com.movyapp.R;
 import br.com.movyapp.domain.model.Movie;
+import br.com.movyapp.view.detail.injection.DaggerDetailComponent;
+import br.com.movyapp.view.detail.injection.DetailModule;
 
 public class MovieDetailsActivity extends Activity implements MovieDetailContract.View {
 
@@ -25,7 +29,8 @@ public class MovieDetailsActivity extends Activity implements MovieDetailContrac
 
     private TextView movieGenre;
 
-    private MovieDetailContract.Presenter presenter;
+    @Inject
+    public MovieDetailPresenter presenter;
 
     private Movie item;
 
@@ -34,16 +39,15 @@ public class MovieDetailsActivity extends Activity implements MovieDetailContrac
     @Override
     protected void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_movie_details);
+
+        DaggerDetailComponent.builder().detailModule(new DetailModule(this)).build().inject(this);
+
         moviePoster = (ImageView) findViewById(R.id.imv_movie_detail_poster);
         movieTitle = (TextView) findViewById(R.id.txv_movie_detail_title);
         movieDesc = (TextView) findViewById(R.id.txv_movie_detail_description);
         movieReleaseDate = (TextView) findViewById(R.id.txv_movie_detail_release_date);
         movieGenre = (TextView) findViewById(R.id.txv_movie_detail_genre);
-
-        presenter = new MovieDetailPresenter();
-        presenter.setView(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
