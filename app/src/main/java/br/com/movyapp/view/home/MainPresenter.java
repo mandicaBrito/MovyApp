@@ -19,12 +19,12 @@ public class MainPresenter implements MainContract.Presenter, Callback<MovieList
     private MainContract.View view;
 
     @Override
-    public void setView(MainContract.View view) {
+    public void setView(final MainContract.View view) {
         this.view = view;
     }
 
     @Override
-    public void getMovies(int page) {
+    public void getMovies(final int page) {
         view.showDialog();
 
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
@@ -45,7 +45,7 @@ public class MainPresenter implements MainContract.Presenter, Callback<MovieList
     }
 
     @Override
-    public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+    public void onResponse(final Call<MovieList> call, final Response<MovieList> response) {
 
         view.closeDialog();
 
@@ -62,7 +62,7 @@ public class MainPresenter implements MainContract.Presenter, Callback<MovieList
     }
 
     @Override
-    public void onFailure(Call<MovieList> call, Throwable t) {
+    public void onFailure(final Call<MovieList> call, final Throwable t) {
         view.closeDialog();
         view.onUpcomingMoviesError(t.getMessage());
     }

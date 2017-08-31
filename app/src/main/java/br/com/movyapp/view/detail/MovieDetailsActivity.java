@@ -64,7 +64,7 @@ public class MovieDetailsActivity extends Activity implements MovieDetailContrac
         setMovieContent(genre);
     }
 
-    public void setMovieContent(String genre) {
+    public void setMovieContent(final String genre) {
         movieTitle.setText(item.getTitle());
         movieReleaseDate.setText(item.getReleaseDate());
         movieGenre.setText((genre != null && !genre.isEmpty()) ? genre : getText(R.string.no_description));

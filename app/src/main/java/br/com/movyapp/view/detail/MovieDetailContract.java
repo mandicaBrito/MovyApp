@@ -9,7 +9,7 @@ import br.com.movyapp.domain.model.Movie;
 public interface MovieDetailContract {
 
     interface View {
-        void onGenreLoadSuccess(String genres);
+        void onGenreLoadSuccess(final String genres);
 
         void onGenreLoadError();
 
@@ -23,6 +23,6 @@ public interface MovieDetailContract {
     interface Presenter {
         void setView(final MovieDetailContract.View view);
 
-        void getMovieGenres(Long id);
+        void getMovieGenres(final Long id);
     }
 }

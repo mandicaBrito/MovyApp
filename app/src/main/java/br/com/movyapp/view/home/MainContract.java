@@ -12,8 +12,6 @@ public interface MainContract {
 
         int INITIAL_PAGE = 1;
 
-        int NO_PAGE = -1;
-
         void updateMovieList(List<Movie> changesList);
 
         void onUpcomingMoviesError(String message);

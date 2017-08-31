@@ -27,7 +27,7 @@ Android library that enables use of lastest material design component.
 Android library that enables use of data containers that can be scrolled.
 
 ### Espresso
-UI test library to help validate business rules and app behavior.
+UI test library to help validate business rules and app behavior. Just remember to disable Android animations on the devices being tested so they can't interfere.
 
 ### Espresso Contrib
 UI test library to help handle RecyclerView actions when testing views.

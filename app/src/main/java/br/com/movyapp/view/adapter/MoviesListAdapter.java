@@ -38,8 +38,6 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
 
     private List<Movie> filteredData;
 
-    private int lastPageCount;
-
     public MoviesListAdapter() {
     }
 

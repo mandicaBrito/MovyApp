@@ -20,12 +20,12 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter, Call
     private final static int CACHE_SIZE_BYTES = 1024 * 1024 * 2;
 
     @Override
-    public void setView(MovieDetailContract.View view) {
+    public void setView(final MovieDetailContract.View view) {
         this.view = view;
     }
 
     @Override
-    public void getMovieGenres(Long id) {
+    public void getMovieGenres(final Long id) {
 
         view.showDialog();
 
@@ -47,7 +47,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter, Call
     }
 
     @Override
-    public void onResponse(Call<MovieGenreList> call, Response<MovieGenreList> response) {
+    public void onResponse(final Call<MovieGenreList> call, final Response<MovieGenreList> response) {
 
         view.closeDialog();
 
@@ -72,7 +72,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter, Call
     }
 
     @Override
-    public void onFailure(Call<MovieGenreList> call, Throwable t) {
+    public void onFailure(final Call<MovieGenreList> call, final Throwable t) {
         view.closeDialog();
         view.onGenreLoadError();
     }
