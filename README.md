@@ -20,6 +20,9 @@ And, finally, to enable cache and its management, OkHttp was added to the projec
 ### Picasso
 To make image download easier, Picasso was added to the project as it can load and image, and cache it, directly in Android components.
 
+### Dagger
+To help manage dependencies injection.
+
 ### Card View
 Android library that enables use of lastest material design component.
 
